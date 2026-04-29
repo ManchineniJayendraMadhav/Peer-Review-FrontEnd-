@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// Use the environment variable for the live backend URL
-// It falls back to localhost only for local development
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080/api',
 });
