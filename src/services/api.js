@@ -3,7 +3,7 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: 'https://peer-review-backend-nnw0.onrender.com/api',
 });
-
+console.log('API baseURL:', api.defaults.baseURL);
 // Add a request interceptor to append JWT token
 api.interceptors.request.use(
   (config) => {
