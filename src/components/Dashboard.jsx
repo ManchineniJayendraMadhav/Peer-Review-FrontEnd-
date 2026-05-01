@@ -16,11 +16,21 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchDashboardData = async () => {
+      // DEBUG: Check if token exists before making requests
+      const token = localStorage.getItem('token');
+      console.log('Dashboard - Token exists?', token ? 'YES (first 20 chars: ' + token.substring(0, 20) + '...)' : 'NO');
+      console.log('Dashboard - User:', user?.username);
+      console.log('Dashboard - isTeacher:', isTeacher);
+      
       try {
-        const [projRes, subRes] = await Promise.all([
-          api.get('/projects'),
-          api.get('/submissions')
-        ]);
+        console.log('Dashboard - Fetching projects...');
+        const projRes = await api.get('/projects');
+        console.log('Dashboard - Projects response:', projRes.data);
+        
+        console.log('Dashboard - Fetching submissions...');
+        const subRes = await api.get('/submissions');
+        console.log('Dashboard - Submissions response:', subRes.data);
+        
         setProjects(projRes.data);
         
         if (isTeacher) {
@@ -30,6 +40,8 @@ const Dashboard = () => {
           setSubmissions(peerSubs);
         }
       } catch (err) {
+        console.error('Dashboard - API Error:', err);
+        console.error('Dashboard - Error response:', err.response);
         let msg = err.response?.data?.message || err.response?.data || "Failed to load dashboard data";
         if (typeof msg !== 'string') msg = "Failed to load dashboard data";
         addToast(msg, 'error');
