@@ -38,6 +38,33 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const login = async (username, password) => {
+  try {
+    console.log('1. Login attempt for:', username);
+    const response = await api.post('/auth/signin', { username, password });
+    console.log('2. Login response received:', response.data);
+    
+    if (response.data.token) {
+      console.log('3. Token found:', response.data.token.substring(0, 20) + '...');
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      console.log('4. Token saved to localStorage');
+      
+      // Verify token was actually saved
+      const savedToken = localStorage.getItem('token');
+      console.log('5. Verified token in localStorage:', savedToken ? 'YES' : 'NO');
+      
+      setUser(response.data);
+      return true;
+    } else {
+      console.log('No token in response');
+      return false;
+    }
+  } catch (error) {
+    console.error("Login Error", error);
+    return false;
+  }
+};
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
