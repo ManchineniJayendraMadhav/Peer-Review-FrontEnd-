@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
- baseURL: 'https://peer-review-frontend-three.vercel.app',
+  baseURL: 'https://peer-review-backend-nnw0.onrender.com/api',
 });
 
 // Add a request interceptor to append JWT token
@@ -23,7 +23,6 @@ api.interceptors.response.use(
     if (error.response) {
       const { status, data } = error.response;
       if (status === 400 && data.fieldErrors) {
-        // Validation Errors
         const messages = Object.values(data.fieldErrors).join('\n');
         alert(`Validation Error:\n${messages}`);
       } else if (status === 401) {
