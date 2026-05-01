@@ -22,22 +22,7 @@ export const AuthProvider = ({ children }) => {
 
     fetchUser();
   }, []);
-
-  const login = async (username, password) => {
-    try {
-      const response = await api.post('/auth/signin', { username, password });
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        setUser(response.data);
-        return true;
-      }
-    } catch (error) {
-      console.error("Login Error", error);
-      return false;
-    }
-  };
-
+  
   const login = async (username, password) => {
   try {
     console.log('1. Login attempt for:', username);
